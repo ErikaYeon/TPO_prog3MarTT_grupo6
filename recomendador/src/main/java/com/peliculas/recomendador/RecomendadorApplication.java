@@ -1,0 +1,13 @@
+package com.peliculas.recomendador;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RecomendadorApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(RecomendadorApplication.class, args);
+	}
+
+}
