@@ -17,8 +17,4 @@ public class Genero {
     @Id
     @EqualsAndHashCode.Include
     private String nombre;
-    
-    public Genero(String nombre) {
-        this.nombre = nombre;
-    }
 }

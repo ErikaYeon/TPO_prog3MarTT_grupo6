@@ -1,5 +1,6 @@
 package com.peliculas.recomendador.controller;
 
+import com.peliculas.recomendador.algorithm.AlgoritmoDijkstra;
 import com.peliculas.recomendador.model.Pelicula;
 import com.peliculas.recomendador.repository.PeliculaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class PeliculaController {
     
     @Autowired
     private PeliculaRepository peliculaRepository;
+    
+    @Autowired
+    private AlgoritmoDijkstra algoritmoDijkstra;
     
     // ============================================
     // ENDPOINTS BÁSICOS
@@ -75,7 +79,20 @@ public class PeliculaController {
     public List<Pelicula> obtenerCaminoMasCorto(
             @PathVariable Long idInicio,
             @PathVariable Long idFin) {
-        return peliculaRepository.findCaminoMasCorto(idInicio, idFin);
+        List<Pelicula> todasLasPeliculas = peliculaRepository.findAll();
+        return algoritmoDijkstra.caminoMasCorto(todasLasPeliculas, idInicio, idFin);
+    }
+    
+    /**
+     * DIJKSTRA: Top N películas más cercanas a una película origen
+     * GET /api/peliculas/{id}/dijkstra/cercanas?n=5
+     */
+    @GetMapping("/{id}/dijkstra/cercanas")
+    public List<Pelicula> peliculasCercanas(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "5") int n) {
+        List<Pelicula> todasLasPeliculas = peliculaRepository.findAll();
+        return algoritmoDijkstra.topNCercanas(todasLasPeliculas, id, n);
     }
     
     // ============================================
