@@ -60,8 +60,8 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
     @Query("MATCH (inicio:Pelicula {peliculaId: $peliculaId}) " +
            "CALL { " +
            "  WITH inicio " +
-           "  MATCH path = (inicio)-[:SIMILAR_A|TIENE_GENERO*1..$profundidad]-(relacionada:Pelicula) " +
-           "  WHERE inicio <> relacionada " +
+           "  MATCH path = (inicio)-[:SIMILAR_A|TIENE_GENERO*1..5]-(relacionada:Pelicula) " +
+           "  WHERE inicio <> relacionada AND length(path) <= $profundidad " +
            "  WITH relacionada, path " +
            "  ORDER BY length(path) DESC " +
            "  RETURN DISTINCT relacionada " +

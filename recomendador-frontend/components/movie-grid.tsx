@@ -7,9 +7,9 @@ interface MovieGridProps {
 export default function MovieGrid({ movies }: MovieGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-      {movies.map((movie) => (
+      {movies.map((movie, index) => (
         <div
-          key={movie.peliculaId}
+          key={movie.peliculaId ? `${movie.peliculaId}-${index}` : `movie-${index}`}
           className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-lg p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-border"
         >
           <h3 className="font-bold text-lg text-foreground mb-2">{movie.titulo}</h3>
@@ -38,7 +38,7 @@ export default function MovieGrid({ movies }: MovieGridProps) {
               <div className="flex flex-wrap gap-1">
                 {movie.generos.map((genre, idx) => (
                   <span
-                    key={idx}
+                    key={`${genre.nombre}-${idx}`}
                     className="bg-primary/30 text-primary px-2 py-0.5 rounded-full text-xs font-medium"
                   >
                     {genre.nombre}

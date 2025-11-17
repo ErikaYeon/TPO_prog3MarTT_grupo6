@@ -23,6 +23,17 @@ export interface AlgorithmResult {
   algorithm: string;
   movies: Movie[];
   info?: string;
+  metadata?: {
+    tiempo?: number;
+    puntuacion?: number;
+    eficiencia?: number;
+    cantidad?: number;
+    numeroAristas?: number;
+    pesoTotal?: number;
+    algoritmo?: string;
+    nodosExplorados?: number;
+    nodosPodados?: number;
+  };
 }
 
 export default function Home() {
