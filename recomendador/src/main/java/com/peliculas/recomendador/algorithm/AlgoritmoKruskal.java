@@ -11,13 +11,18 @@ import java.util.*;
 /**
  * KRUSKAL - Algoritmo de Árbol de Expansión Mínimo (MST)
  * Encuentra la red mínima de conexiones entre películas
+ * 
+ * COMPLEJIDAD TEMPORAL: O(E log E)
+ * 
+ * Usa Union-Find para detectar ciclos eficientemente
  */
 @Component
 public class AlgoritmoKruskal {
     
     /**
-     * Implementación del algoritmo de Kruskal
-     * Encuentra el MST usando Union-Find
+     * Algoritmo de Kruskal con Union-Find
+     * COMPLEJIDAD: O(E log E)
+     * - E log E: Ordenamiento de aristas (domina)
      */
     public ResultadoMST arbolExpansionMinimo(List<Arista> todasLasAristas) {
         if (todasLasAristas == null || todasLasAristas.isEmpty()) {
@@ -27,32 +32,40 @@ public class AlgoritmoKruskal {
         List<Arista> mst = new ArrayList<>();
         UnionFind uf = new UnionFind();
         
-        // PASO 1: Inicializar Union-Find con todos los nodos
+        // ========================================
+        // PASO 1: INICIALIZAR UNION-FIND - O(V)
+        // ========================================
         Set<Long> nodos = new HashSet<>();
+        // O(E): Extraer todos los nodos únicos
         for (Arista arista : todasLasAristas) {
             nodos.add(arista.getOrigen().getPeliculaId());
             nodos.add(arista.getDestino().getPeliculaId());
         }
         
+        // O(V): Crear conjunto para cada nodo
         for (Long nodoId : nodos) {
-            uf.makeSet(nodoId);
+            uf.makeSet(nodoId);  // O(1)
         }
         
-        // PASO 2: Ordenar todas las aristas por peso (menor a mayor)
+        // ========================================
+        // PASO 2: ORDENAR ARISTAS - O(E log E)
+        // ========================================
         List<Arista> aristasOrdenadas = new ArrayList<>(todasLasAristas);
-        Collections.sort(aristasOrdenadas);
+        Collections.sort(aristasOrdenadas);  // O(E log E) - ¡DOMINA LA COMPLEJIDAD!
         
-        // PASO 3: Algoritmo de Kruskal
-        for (Arista arista : aristasOrdenadas) {
+        // ========================================
+        // PASO 3: ALGORITMO DE KRUSKAL
+        // ========================================
+        for (Arista arista : aristasOrdenadas) {  // O(E) iteraciones
             Long origenId = arista.getOrigen().getPeliculaId();
             Long destinoId = arista.getDestino().getPeliculaId();
             
-            // Si los nodos NO están conectados, agregar la arista
+            // O(α(V)) ≈ O(1): Verificar si agregar la arista crearía un ciclo
             if (!uf.estanConectados(origenId, destinoId)) {
-                mst.add(arista);
-                uf.union(origenId, destinoId);
+                mst.add(arista);  // O(1)
+                uf.union(origenId, destinoId);  //  O(1)
                 
-                // Condición de parada: MST completo (n-1 aristas)
+                // Optimización: MST completo tiene exactamente V-1 aristas
                 if (mst.size() == nodos.size() - 1) {
                     break;
                 }
@@ -65,14 +78,15 @@ public class AlgoritmoKruskal {
     }
     
     /**
-     * Versión que acepta películas y construye las aristas automáticamente
+     * Wrapper que construye aristas desde las películas
+     * COMPLEJIDAD: O(E log E) dominado por el ordenamiento
      */
     public ResultadoMST arbolExpansionMinimoDesdeGrafo(List<Pelicula> peliculas) {
         if (peliculas == null || peliculas.isEmpty()) {
             return new ResultadoMST(new ArrayList<>(), "Kruskal");
         }
         
-        // Construir lista de aristas desde las relaciones de similitud
+        // O(E): Construir lista de aristas evitando duplicados
         List<Arista> aristas = new ArrayList<>();
         Set<String> aristasAgregadas = new HashSet<>();
         
@@ -82,7 +96,7 @@ public class AlgoritmoKruskal {
                     Long origenId = pelicula.getPeliculaId();
                     Long destinoId = relacion.getPeliculaDestino().getPeliculaId();
                     
-                    // Evitar duplicados (arista bidireccional)
+                    // O(1): Evitar duplicados (grafo no dirigido)
                     String clave = Math.min(origenId, destinoId) + "-" + Math.max(origenId, destinoId);
                     
                     if (!aristasAgregadas.contains(clave)) {
@@ -99,6 +113,7 @@ public class AlgoritmoKruskal {
             }
         }
         
+        // O(E log E): Ejecutar Kruskal
         return arbolExpansionMinimo(aristas);
     }
 }

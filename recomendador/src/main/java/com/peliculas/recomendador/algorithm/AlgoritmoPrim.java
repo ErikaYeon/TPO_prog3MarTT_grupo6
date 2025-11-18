@@ -10,13 +10,17 @@ import java.util.*;
 /**
  * PRIM - Algoritmo de Árbol de Expansión Mínimo (MST)
  * Encuentra la red mínima de conexiones entre películas
+ * 
+ * COMPLEJIDAD TEMPORAL: O((V + E) log V)
+ * 
+ * Implementación con PriorityQueue (heap binario)
  */
 @Component
 public class AlgoritmoPrim {
     
     /**
-     * Implementación del algoritmo de Prim
-     * Encuentra el MST a partir de un nodo inicial
+     * Algoritmo de Prim desde un nodo inicial
+     * COMPLEJIDAD: O((V + E) log V)
      */
     public ResultadoMST arbolExpansionMinimo(List<Arista> todasLasAristas, Long peliculaInicioId) {
         if (todasLasAristas == null || todasLasAristas.isEmpty()) {
@@ -25,40 +29,44 @@ public class AlgoritmoPrim {
         
         List<Arista> mst = new ArrayList<>();
         Set<Long> visitados = new HashSet<>();
-        PriorityQueue<Arista> colaPrioridad = new PriorityQueue<>();
+        PriorityQueue<Arista> colaPrioridad = new PriorityQueue<>();  // Min-heap por peso
         
-        // PASO 1: Agregar el nodo inicial
-        visitados.add(peliculaInicioId);
+        // ========================================
+        // PASO 1: INICIALIZACIÓN - O(E)
+        // ========================================
+        visitados.add(peliculaInicioId);  // O(1)
         
-        // PASO 2: Agregar todas las aristas del nodo inicial a la cola
+        // O(E): Buscar todas las aristas del nodo inicial
         for (Arista arista : todasLasAristas) {
             if (arista.getOrigen().getPeliculaId().equals(peliculaInicioId)) {
-                colaPrioridad.offer(arista);
+                colaPrioridad.offer(arista);  // O(log E)
             }
         }
         
-        // PASO 3: Algoritmo de Prim
-        while (!colaPrioridad.isEmpty() && mst.size() < visitados.size()) {
-            Arista aristaActual = colaPrioridad.poll();
+        // ========================================
+        // PASO 2: ALGORITMO DE PRIM - O((V + E) log V)
+        // ========================================
+        while (!colaPrioridad.isEmpty() && mst.size() < visitados.size()) {  // O(V) iteraciones
+            Arista aristaActual = colaPrioridad.poll();  // O(log E)
             Long destinoId = aristaActual.getDestino().getPeliculaId();
             
-            // Si el destino ya fue visitado, ignorar (evitar ciclos)
-            if (visitados.contains(destinoId)) {
+            // Evitar ciclos
+            if (visitados.contains(destinoId)) {  // O(1)
                 continue;
             }
             
-            // Agregar la arista al MST
+            // Agregar arista al MST
             mst.add(aristaActual);
             visitados.add(destinoId);
             
-            // Agregar todas las aristas del nuevo nodo a la cola
+            // Agregar aristas del nodo recién agregado a la cola
             for (Arista arista : todasLasAristas) {
                 Long origenId = arista.getOrigen().getPeliculaId();
                 Long destId = arista.getDestino().getPeliculaId();
                 
                 // Agregar aristas que salgan del nodo recién agregado
                 if (origenId.equals(destinoId) && !visitados.contains(destId)) {
-                    colaPrioridad.offer(arista);
+                    colaPrioridad.offer(arista);  // O(log E)
                 }
             }
         }
@@ -69,14 +77,15 @@ public class AlgoritmoPrim {
     }
     
     /**
-     * Versión que acepta películas y construye las aristas automáticamente
+     * Wrapper que construye las aristas desde las películas
+     * COMPLEJIDAD: O((V + E) log V)
      */
     public ResultadoMST arbolExpansionMinimoDesdeGrafo(List<Pelicula> peliculas) {
         if (peliculas == null || peliculas.isEmpty()) {
             return new ResultadoMST(new ArrayList<>(), "Prim");
         }
         
-        // Construir lista de aristas desde las relaciones de similitud
+        // O(V × grado promedio): Construir lista de aristas
         List<Arista> aristas = new ArrayList<>();
         
         for (Pelicula pelicula : peliculas) {
@@ -97,7 +106,7 @@ public class AlgoritmoPrim {
             return new ResultadoMST(new ArrayList<>(), "Prim");
         }
         
-        // Ejecutar Prim desde la primera película
+        // O((V + E) log V): Ejecutar Prim
         return arbolExpansionMinimo(aristas, peliculas.get(0).getPeliculaId());
     }
 }
