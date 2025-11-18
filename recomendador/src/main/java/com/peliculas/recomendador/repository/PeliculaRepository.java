@@ -38,7 +38,7 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
                                              @Param("limite") int limite);
     
     // ============================================
-    // BFS - BÚSQUEDA EN ANCHURA (2 PUNTOS) 🔵
+    // BFS - BÚSQUEDA EN ANCHURA
     // ============================================
     @Query("MATCH (inicio:Pelicula {peliculaId: $peliculaId}) " +
            "CALL { " +
@@ -55,7 +55,7 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
                                @Param("limite") int limite);
     
     // ============================================
-    // DFS - BÚSQUEDA EN PROFUNDIDAD (2 PUNTOS) 🟣
+    // DFS - BÚSQUEDA EN PROFUNDIDAD
     // ============================================
     @Query("MATCH (inicio:Pelicula {peliculaId: $peliculaId}) " +
            "CALL { " +
@@ -73,7 +73,7 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
                                @Param("limite") int limite);
     
     // ============================================
-    // DIJKSTRA - CAMINO MÁS CORTO (3 PUNTOS) 🟢
+    // DIJKSTRA - CAMINO MÁS CORTO
     // ============================================
     @Query("MATCH (inicio:Pelicula {peliculaId: $idInicio}), (fin:Pelicula {peliculaId: $idFin}), " +
            "path = shortestPath((inicio)-[r:SIMILAR_A*]-(fin)) " +
