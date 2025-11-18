@@ -60,7 +60,7 @@ public class AlgoritmosController {
     private AlgoritmoDijkstra algoritmoDijkstra;
     
     // ============================================
-    // GREEDY (1 PUNTO) 🟢
+    // GREEDY
     // ============================================
     
     /**
@@ -95,7 +95,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // QUICKSORT (1 PUNTO) 🔵
+    // QUICKSORT
     // ============================================
     
     /**
@@ -129,7 +129,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // BACKTRACKING (1 PUNTO) 🟣
+    // BACKTRACKING
     // ============================================
     
     /**
@@ -191,7 +191,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // MERGESORT - ORDENAMIENTO ESTABLE (1 PUNTO) 🔴
+    // MERGESORT - ORDENAMIENTO ESTABLE
     // ============================================
     
     /**
@@ -235,7 +235,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // DP - PROGRAMACIÓN DINÁMICA (1 PUNTO) 💰
+    // DP - PROGRAMACIÓN DINÁMICA
     // ============================================
     
     /**
@@ -273,7 +273,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // PRIM - ÁRBOL DE EXPANSIÓN MÍNIMO (1 PUNTO) 🌳
+    // PRIM - ÁRBOL DE EXPANSIÓN MÍNIMO
     // ============================================
     
     /**
@@ -287,7 +287,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // KRUSKAL - ÁRBOL DE EXPANSIÓN MÍNIMO (1 PUNTO) 🌲
+    // KRUSKAL - ÁRBOL DE EXPANSIÓN MÍNIMO
     // ============================================
     
     /**
@@ -301,7 +301,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // BRANCH & BOUND - OPTIMIZACIÓN CON PODA (1 PUNTO) 🌿
+    // BRANCH & BOUND - OPTIMIZACIÓN CON PODA
     // ============================================
     
     /**
@@ -339,7 +339,7 @@ public class AlgoritmosController {
     }
     
     // ============================================
-    // DIJKSTRA - CAMINO MÁS CORTO MANUAL (3 PUNTOS) 🟢
+    // DIJKSTRA - CAMINO MÁS CORTO MANUAL
     // ============================================
     
     /**

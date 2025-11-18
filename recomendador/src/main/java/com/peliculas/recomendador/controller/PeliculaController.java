@@ -52,7 +52,7 @@ public class PeliculaController {
     }
     
     // ============================================
-    // BFS - BÚSQUEDA EN ANCHURA (2 PUNTOS) 🔵
+    // BFS - BÚSQUEDA EN ANCHURA
     // ============================================
     @GetMapping("/{id}/bfs")
     public List<Pelicula> busquedaBFS(
@@ -62,7 +62,7 @@ public class PeliculaController {
     }
     
     // ============================================
-    // DFS - BÚSQUEDA EN PROFUNDIDAD (2 PUNTOS) 🟣
+    // DFS - BÚSQUEDA EN PROFUNDIDAD
     // ============================================
     @GetMapping("/{id}/dfs")
     public List<Pelicula> busquedaDFS(
@@ -73,7 +73,7 @@ public class PeliculaController {
     }
     
     // ============================================
-    // DIJKSTRA - CAMINO MÁS CORTO (3 PUNTOS) 🟢
+    // DIJKSTRA - CAMINO MÁS CORTO
     // ============================================
     @GetMapping("/camino/{idInicio}/{idFin}")
     public List<Pelicula> obtenerCaminoMasCorto(

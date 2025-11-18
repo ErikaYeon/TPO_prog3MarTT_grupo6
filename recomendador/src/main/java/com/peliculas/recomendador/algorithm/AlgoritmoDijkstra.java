@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * DIJKSTRA - Algoritmo de Camino Más Corto (3 PUNTOS)
+ * DIJKSTRA - Algoritmo de Camino Más Corto
  * Encuentra el camino con menor distancia (peso) entre dos nodos
  * Implementación manual en Java con Cola de Prioridad
  */
