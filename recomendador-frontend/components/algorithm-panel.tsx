@@ -57,7 +57,10 @@ export default function AlgorithmPanel({
       onError('Por favor selecciona una película', 'error');
       return;
     }
-    const movieName = movies.find(m => m.peliculaId === selectedMovie)?.titulo || '';
+    
+    const movieId = Number(selectedMovie);
+    const movieName = movies.find(m => m.peliculaId === movieId)?.titulo || '';
+    
     await executeAlgorithm(
       `${API_URL}/${selectedMovie}/bfs?profundidad=3&limite=15`,
       `BFS desde "${movieName}"`,
@@ -70,7 +73,10 @@ export default function AlgorithmPanel({
       onError('Por favor selecciona una película', 'error');
       return;
     }
-    const movieName = movies.find(m => m.peliculaId === selectedMovie)?.titulo || '';
+    
+    const movieId = Number(selectedMovie);
+    const movieName = movies.find(m => m.peliculaId === movieId)?.titulo || '';
+    
     await executeAlgorithm(
       `${API_URL}/${selectedMovie}/dfs?profundidad=3&limite=15`,
       `DFS desde "${movieName}"`,
@@ -95,8 +101,13 @@ export default function AlgorithmPanel({
       onError('Por favor selecciona ambas películas', 'error');
       return;
     }
-    const startMovieName = movies.find(m => m.peliculaId === startMovie)?.titulo || '';
-    const endMovieName = movies.find(m => m.peliculaId === endMovie)?.titulo || '';
+    
+    // Convertir a números
+    const startMovieId = Number(startMovie);
+    const endMovieId = Number(endMovie);
+    
+    const startMovieName = movies.find(m => m.peliculaId === startMovieId)?.titulo || 'Película desconocida';
+    const endMovieName = movies.find(m => m.peliculaId === endMovieId)?.titulo || 'Película desconocida';
     
     await executeAlgorithm(
       `${API_ALG}/dijkstra/camino/${startMovie}/${endMovie}`,
@@ -433,7 +444,7 @@ export default function AlgorithmPanel({
       <div className="bg-card rounded-xl p-6 shadow-lg border border-border">
         <h2 className="text-xl font-bold text-primary mb-4">⚡ Otros Algoritmos (3 pts)</h2>
         <div className="bg-muted/30 border-l-4 border-primary p-3 mb-4 rounded text-sm text-muted-foreground">
-          Greedy (1pt) + QuickSort (1pt) + Backtracking (1pt)
+          Greedy + QuickSort + Backtracking
         </div>
 
         <ControlSection label="GREEDY">
@@ -535,7 +546,7 @@ export default function AlgorithmPanel({
       <div className="bg-card rounded-xl p-6 shadow-lg border border-border">
         <h2 className="text-xl font-bold text-primary mb-4">🚀 Algoritmos Avanzados (+3 pts)</h2>
         <div className="bg-muted/30 border-l-4 border-primary p-3 mb-4 rounded text-sm text-muted-foreground">
-          Programación Dinámica (1pt) + Prim (1pt) + Kruskal (1pt)
+          Programación Dinámica + Prim + Kruskal
         </div>
 
         <ControlSection label="PROGRAMACIÓN DINÁMICA">
