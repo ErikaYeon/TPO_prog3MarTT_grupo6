@@ -40,13 +40,27 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
     // ============================================
     // BFS - BÚSQUEDA EN ANCHURA
     // ============================================
+    /**
+     * BFS explora el grafo NIVEL POR NIVEL (amplitud primero)
+     * 
+     * COMPLEJIDAD: O(V + E)
+     * - V = número de vértices (películas)
+     * - E = número de aristas (relaciones)
+     * 
+     * IMPLEMENTACIÓN:
+     * - Usa ORDER BY distancia ASC para procesar nivel por nivel
+     * - Explora distancias 1, 2, 3 en ese orden
+     * - Encuentra películas MÁS CERCANAS primero
+     * 
+     * ESTRUCTURA DE DATOS: Cola FIFO (First In First Out)
+     */
     @Query("MATCH (inicio:Pelicula {peliculaId: $peliculaId}) " +
            "CALL { " +
            "  WITH inicio " +
            "  MATCH path = (inicio)-[:SIMILAR_A|TIENE_GENERO*1..3]-(relacionada:Pelicula) " +
            "  WHERE inicio <> relacionada " +
            "  WITH relacionada, length(path) as distancia " +
-           "  ORDER BY distancia ASC " +
+           "  ORDER BY distancia ASC " +  // nivel por nivel
            "  RETURN DISTINCT relacionada " +
            "  LIMIT $limite " +
            "} " +
@@ -57,13 +71,28 @@ public interface PeliculaRepository extends Neo4jRepository<Pelicula, Long> {
     // ============================================
     // DFS - BÚSQUEDA EN PROFUNDIDAD
     // ============================================
+    /**
+     * DFS explora el grafo siguiendo RAMAS COMPLETAS (profundidad primero)
+     * 
+     * COMPLEJIDAD: O(V + E)
+     * - Igual que BFS, pero diferente ORDEN de exploración
+     * 
+     * IMPLEMENTACIÓN:
+     * - Usa ORDER BY length(path) DESC para ir profundo primero
+     * - Explora distancias 5, 4, 3, 2, 1 en ese orden
+     * - Permite hasta profundidad 5 (más que BFS)
+     * 
+     * ESTRUCTURA DE DATOS: Pila LIFO (Last In First Out)
+     * Neo4j implementa esto internamente
+     * 
+     */
     @Query("MATCH (inicio:Pelicula {peliculaId: $peliculaId}) " +
            "CALL { " +
            "  WITH inicio " +
            "  MATCH path = (inicio)-[:SIMILAR_A|TIENE_GENERO*1..5]-(relacionada:Pelicula) " +
            "  WHERE inicio <> relacionada AND length(path) <= $profundidad " +
            "  WITH relacionada, path " +
-           "  ORDER BY length(path) DESC " +
+           "  ORDER BY length(path) DESC " +  // profundidad primero
            "  RETURN DISTINCT relacionada " +
            "  LIMIT $limite " +
            "} " +
